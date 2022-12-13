@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\user\StoreUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
@@ -25,12 +27,15 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreUserRequest $request
+     * @return UserResource
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request): UserResource
     {
-        //
+        $user = User::create($request->all());
+        $user->save();
+
+        return new UserResource($user);
     }
 
     /**

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\user\StoreUserRequest;
+use App\Http\Requests\user\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
@@ -25,42 +28,50 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreUserRequest $request
+     * @return UserResource
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request): UserResource
     {
-        //
+        $user = User::create($request->all());
+        $user->save();
+
+        return new UserResource($user);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return UserResource
      */
-    public function show($id)
+    public function show(int $id): UserResource
     {
-        //
+        $user = User::find($id);
+
+        return new UserResource($user);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UpdateUserRequest $request
+     * @param int $id
+     * @return UserResource
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, int $id): UserResource
     {
-        //
+        $user = User::findOrFail($id);
+        $user->update($request->all());
+
+        return new UserResource($user);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {

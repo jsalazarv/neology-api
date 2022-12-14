@@ -6,6 +6,7 @@ use App\Http\Requests\user\StoreUserRequest;
 use App\Http\Requests\user\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
@@ -29,27 +30,27 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param StoreUserRequest $request
-     * @return UserResource
+     * @return JsonResponse
      */
-    public function store(StoreUserRequest $request): UserResource
+    public function store(StoreUserRequest $request): JsonResponse
     {
         $user = User::create($request->all());
         $user->save();
 
-        return new UserResource($user);
+        return (new UserResource($user))->response()->setStatusCode(Response::HTTP_CREATED);
     }
 
     /**
      * Display the specified resource.
      *
      * @param int $id
-     * @return UserResource
+     * @return JsonResponse
      */
-    public function show(int $id): UserResource
+    public function show(int $id): JsonResponse
     {
         $user = User::find($id);
 
-        return new UserResource($user);
+        return (new UserResource($user))->response()->setStatusCode(Response::HTTP_OK);
     }
 
     /**
@@ -57,24 +58,26 @@ class UserController extends Controller
      *
      * @param UpdateUserRequest $request
      * @param int $id
-     * @return UserResource
+     * @return JsonResponse
      */
-    public function update(UpdateUserRequest $request, int $id): UserResource
+    public function update(UpdateUserRequest $request, int $id): JsonResponse
     {
         $user = User::findOrFail($id);
         $user->update($request->all());
 
-        return new UserResource($user);
+        return (new UserResource($user))->response()->setStatusCode(Response::HTTP_OK);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return void
+     * @return JsonResponse
      */
-    public function destroy($id): void
+    public function destroy($id): JsonResponse
     {
-        User::destroy($id);
+         User::destroy($id);
+
+         return response()->json()->setStatusCode(Response::HTTP_NO_CONTENT);
     }
 }

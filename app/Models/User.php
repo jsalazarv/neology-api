@@ -59,4 +59,8 @@ class User extends Authenticatable
     public function resume() {
         return $this->hasOne(Document::class)->where('type', '=','resume');
     }
+
+    public function documents() {
+        return $this->hasMany(Document::class);
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\user\StoreUserRequest;
 use App\Http\Requests\user\UpdateUserRequest;
+use App\Http\Resources\DocumentResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -78,5 +79,17 @@ class UserController extends Controller
          User::destroy($id);
 
          return response()->json()->setStatusCode(Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     *
+     * @param  int  $id
+     * @return JsonResponse
+     */
+    public function documents($id): JsonResponse
+    {
+        $user = User::with('documents')->find($id);
+
+        return DocumentResource::collection($user->documents)->response()->setStatusCode(Response::HTTP_OK);
     }
 }

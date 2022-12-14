@@ -21,7 +21,7 @@ class UserController extends Controller
      */
     public function index(Request $request): AnonymousResourceCollection
     {
-        $users = User::with(['picture'])->paginate($request->get('pageSize', 10));
+        $users = User::with(['picture', 'resume'])->paginate($request->get('pageSize', 10));
 
         return UserResource::collection($users);
     }
@@ -35,7 +35,6 @@ class UserController extends Controller
     public function store(StoreUserRequest $request): JsonResponse
     {
         $user = User::create($request->all());
-        $user->save();
 
         return (new UserResource($user))->response()->setStatusCode(Response::HTTP_CREATED);
     }
@@ -48,7 +47,7 @@ class UserController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $user = User::find($id);
+        $user = User::with(['picture', 'resume'])->find($id);
 
         return (new UserResource($user))->response()->setStatusCode(Response::HTTP_OK);
     }
@@ -62,7 +61,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, int $id): JsonResponse
     {
-        $user = User::findOrFail($id);
+        $user = User::with(['picture', 'resume'])->findOrFail($id);
         $user->update($request->all());
 
         return (new UserResource($user))->response()->setStatusCode(Response::HTTP_OK);

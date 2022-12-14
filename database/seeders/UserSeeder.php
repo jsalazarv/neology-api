@@ -28,7 +28,8 @@ class UserSeeder extends Seeder
         ]);
 
        $picture = new Document([
-           'file_name' => Storage::path('assets/avatar.jpeg'),
+           'path' => Storage::path('assets/avatar.jpeg'),
+           'file_name' => 'avatar.jpeg',
            'extension' => 'jpeg',
            'type' => 'picture'
        ]);
@@ -48,7 +49,8 @@ class UserSeeder extends Seeder
        ]);
 
         $picture = new Document([
-            'file_name' => Storage::path('assets/avatar.jpeg'),
+            'path' => Storage::path('assets/avatar.jpeg'),
+            'file_name' => 'avatar.jpeg',
             'extension' => 'jpeg',
             'type' => 'picture'
         ]);

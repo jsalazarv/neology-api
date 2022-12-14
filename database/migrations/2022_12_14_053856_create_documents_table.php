@@ -19,9 +19,10 @@ return new class extends Migration
                 ->nullable()
                 ->constrained('users')
                 ->nullOnDelete();
+            $table->string('path');
             $table->string('file_name');
             $table->string('extension');
-            $table->enum('type', ['picture', 'cv']);
+            $table->enum('type', ['picture', 'resume']);
             $table->timestamps();
         });
     }

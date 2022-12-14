@@ -55,4 +55,8 @@ class User extends Authenticatable
     public function picture() {
         return $this->hasOne(Document::class)->where('type', '=','picture');
     }
+
+    public function resume() {
+        return $this->hasOne(Document::class)->where('type', '=','resume');
+    }
 }

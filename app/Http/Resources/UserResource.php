@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Document;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -22,6 +23,8 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'last_name' => $this->last_name,
             'username' => $this->username,
+            'picture' => new DocumentResource($this->whenLoaded('picture')),
+            'resume' => new DocumentResource($this->whenLoaded('resume')),
             'email' => $this->email,
             'full_name' => $this->name . ' ' . $this->last_name,
             'role' => $this->role,

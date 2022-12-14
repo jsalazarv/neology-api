@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\user;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -24,19 +26,19 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255', 'min:6'],
+            'name' => ['sometimes', 'string', 'max:255'],
+            'last_name' => ['sometimes', 'string', 'max:255'],
+            'username' => ['sometimes', 'string', 'max:255', 'min:6'],
             'email' => [
-                'required',
+                'sometimes',
                 'email',
                 'string',
                 'max:255',
-                'unique:users,email'
+                Rule::unique('users')->ignore(request('id')),
             ],
-            'password' => ['required', 'string', 'max:255', 'min:6'],
-            'role' => ['required', 'string', 'max:255'],
-            'status' => ['required', 'string', 'max:255'],
+            'password' => ['sometimes', 'string', 'max:255', 'min:6'],
+            'role' => ['sometimes', 'string', 'max:255', "in:employee,admin"],
+            'status' => ['sometimes', 'string', 'max:255', "in:active,inactive"],
         ];
     }
 }

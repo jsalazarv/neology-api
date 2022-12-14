@@ -51,4 +51,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function picture() {
+        return $this->hasOne(Document::class)->where('type', '=','picture');
+    }
+
+    public function resume() {
+        return $this->hasOne(Document::class)->where('type', '=','resume');
+    }
+
+    public function documents() {
+        return $this->hasMany(Document::class);
+    }
 }

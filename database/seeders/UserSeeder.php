@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Document;
+use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
+       $admin = User::create([
             'name' => 'Jacob',
             'last_name' => 'Davis',
             'username' => 'jdavis',
@@ -26,14 +26,35 @@ class UserSeeder extends Seeder
             'status' => 'active',
         ]);
 
-        DB::table('users')->insert([
-            'name' => 'Luke',
-            'last_name' => 'Kollman',
-            'username' => 'lkollman',
-            'email' => 'luke_kollman@neology.net',
-            'password' => Hash::make('secret'),
-            'role' => 'employee',
-            'status' => 'active',
+       $picture = new Document([
+           'path' => 'public/assets/avatar.jpeg',
+           'file_name' => 'avatar.jpeg',
+           'extension' => 'jpeg',
+           'type' => 'picture'
+       ]);
+
+       $admin->picture()->save($picture);
+
+
+
+       $employee = User::create([
+           'name' => 'Luke',
+           'last_name' => 'Kollman',
+           'username' => 'lkollman',
+           'email' => 'luke_kollman@neology.net',
+           'password' => Hash::make('secret'),
+           'role' => 'employee',
+           'status' => 'active',
+       ]);
+
+        $picture = new Document([
+            'path' => 'public/assets/avatar.jpeg',
+            'file_name' => 'avatar.jpeg',
+            'extension' => 'jpeg',
+            'type' => 'picture'
         ]);
+
+        $employee->picture()->save($picture);
+
     }
 }

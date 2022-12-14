@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\user\StoreUserRequest;
+use App\Http\Requests\user\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -54,13 +55,16 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return Response
+     * @param UpdateUserRequest $request
+     * @param int $id
+     * @return UserResource
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, int $id): UserResource
     {
-        //
+        $user = User::findOrFail($id);
+        $user->update($request->all());
+
+        return new UserResource($user);
     }
 
     /**

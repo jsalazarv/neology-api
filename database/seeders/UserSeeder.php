@@ -6,7 +6,6 @@ use App\Models\Document;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 
 class UserSeeder extends Seeder
 {
@@ -28,7 +27,7 @@ class UserSeeder extends Seeder
         ]);
 
        $picture = new Document([
-           'path' => Storage::path('assets/avatar.jpeg'),
+           'path' => 'public/assets/avatar.jpeg',
            'file_name' => 'avatar.jpeg',
            'extension' => 'jpeg',
            'type' => 'picture'
@@ -49,7 +48,7 @@ class UserSeeder extends Seeder
        ]);
 
         $picture = new Document([
-            'path' => Storage::path('assets/avatar.jpeg'),
+            'path' => 'public/assets/avatar.jpeg',
             'file_name' => 'avatar.jpeg',
             'extension' => 'jpeg',
             'type' => 'picture'

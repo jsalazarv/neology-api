@@ -34,4 +34,5 @@ Route::group(['prefix' => 'documents'], function () {
     Route::get('/{id}', [DocumentController::class, 'show']);
     Route::put('/{id}', [DocumentController::class, 'update']);
     Route::delete('/{id}', [DocumentController::class, 'destroy']);
+    Route::get('/{id}/download', [DocumentController::class, 'download'])->name('file:download');
 });

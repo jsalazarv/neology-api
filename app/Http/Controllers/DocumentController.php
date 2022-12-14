@@ -9,6 +9,8 @@ use App\Models\Document;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DocumentController extends Controller
 {
@@ -37,7 +39,7 @@ class DocumentController extends Controller
         $document = Document::create(
             [
                 ...$request->except('file'),
-                'path' => $file->path(),
+                'path' => $file->store('public'),
                 'file_name' => $file->getClientOriginalName(),
                 'extension' => $file->getClientOriginalExtension()
             ]
@@ -74,7 +76,7 @@ class DocumentController extends Controller
         $document->update(
             [
                 ...$request->except('file'),
-                'path' => $file->path(),
+                'path' => $file->store('public'),
                 'file_name' => $file->getClientOriginalName(),
                 'extension' => $file->getClientOriginalExtension()
             ]
@@ -94,5 +96,18 @@ class DocumentController extends Controller
         Document::destroy($id);
 
         return response()->json()->setStatusCode(Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return StreamedResponse
+     */
+    public function download($id)
+    {
+        $document = Document::find($id);
+
+        return Storage::download($document->path);
     }
 }

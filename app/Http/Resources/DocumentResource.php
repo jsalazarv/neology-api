@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class DocumentResource extends JsonResource
 {
@@ -20,6 +21,8 @@ class DocumentResource extends JsonResource
             'file_name' => $this->file_name,
             'extension' => $this->extension,
             'type' => $this->type,
+            'url' => asset(Storage::url($this->path)),
+            'download_url' => route('file:download', ["id" => $this->id]),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

@@ -8,6 +8,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @method static paginate(mixed $get)
+ * @method static create(array $all)
+ * @method static find(int $id)
+ * @method static findOrFail(int $id)
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -19,8 +25,12 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'last_name',
+        'username',
         'email',
         'password',
+        'role',
+        'status',
     ];
 
     /**
@@ -41,4 +51,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function picture() {
+        return $this->hasOne(Document::class)->where('type', '=','picture');
+    }
+
+    public function resume() {
+        return $this->hasOne(Document::class)->where('type', '=','resume');
+    }
+
+    public function documents() {
+        return $this->hasMany(Document::class);
+    }
 }

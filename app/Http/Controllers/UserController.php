@@ -21,7 +21,7 @@ class UserController extends Controller
      */
     public function index(Request $request): AnonymousResourceCollection
     {
-        $users = User::paginate($request->get('pageSize', 10));
+        $users = User::with(['picture'])->paginate($request->get('pageSize', 10));
 
         return UserResource::collection($users);
     }

@@ -35,8 +35,8 @@ class StoreUserRequest extends FormRequest
                 'unique:users,email'
             ],
             'password' => ['required', 'string', 'max:255', 'min:6'],
-            'role' => ['required', 'string', 'max:255'],
-            'status' => ['required', 'string', 'max:255'],
+            'role' => ['required', 'string', 'max:255', "in:employee,admin"],
+            'status' => ['required', 'string', 'max:255', "in:active,inactive"],
         ];
     }
 }
